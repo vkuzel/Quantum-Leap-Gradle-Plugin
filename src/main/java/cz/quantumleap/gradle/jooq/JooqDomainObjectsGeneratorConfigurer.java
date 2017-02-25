@@ -21,9 +21,9 @@ public class JooqDomainObjectsGeneratorConfigurer {
     }
 
     private void describeTask(GenerateJooqDomainObjectsTask task) {
-        String description = "Generates JOOQ domain objects into src/generated/java directories." +
+        String description = "Generates jOOQ domain objects into src/generated/java directories." +
                 " Generator works with PostgreSQL only." +
-                " It reads JOOQ configuration from `db/jooq-generator-configuration.xml' and database credentials from `config/application-default.properties'. "+
+                " It reads jOOQ configuration from `db/jooq-generator-configuration.xml' and database credentials from `config/application-default.properties'. "+
                 " Following credential properties are recognized: " +
                 "     spring.datasource.url" +
                 "     spring.datasource.username" +

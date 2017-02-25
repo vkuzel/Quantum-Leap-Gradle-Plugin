@@ -2,31 +2,37 @@
 
 [![](https://jitpack.io/v/vkuzel/Quantum-Leap-Gradle-Plugin.svg)](https://jitpack.io/#vkuzel/Quantum-Leap-Gradle-Plugin)
 
-Base plugin for Quantum Leap project that "configures everything" and makes project's build files smaller and cleaner.
-Probably not useful for anybody outside the Quantum Leap but it can be used as a source of inspiration.
+Gradle build plugin for the Quantum Leap project so project's build scripts can be smaller and cleaner.
+Probably not useful for anything except for Quantum Leap, still can serve as a good source of inspiration.
 
-Plugin has been designed with following project structure in mind.
+Quantum Leap (not published yet) is a project template for building Java multi-module web applications backed by Spring Boot, jOOQ, Thymeleaf and PostgreSQL.
+The plugin expects following project structure.
 
 ````
 root project <-- Here's applied the plugin
 |
 +--- core module <-- Module containing @SpringBootProject annotation, its name must be "core"
 |
-\--- some other module
+\--- some other modules
 ````
 
 ## Features
 
-* Applies [Spring Boot Gradle plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-gradle-plugin.html) to a root project and fixes findMainClass task in multi-module project.
-* Configures JOOQ domain objects generator.
-  Generator reads it's configuration from `db/jooq-generator-configuration.xml` resource and database credentials from `config/application-default.properties` resource.
-  Use the standard Spring Boot's `spring.datasource.` datasource configuration prefix in properties file.
-* Adds new `discoverProjectDependencies` task that stores serialized version of project dependencies to file. This can be used while application's runtime to determine which sub-project should execute first, etc.
-* Configures Thymeleaf to version 3.x.
+* Applies [Spring Boot Gradle plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-gradle-plugin.html) to a root project and fixes `findMainClass' task in multi-module projects.
+* New `generateJooqDomainObjects` task, generates jOOQ domain objects to `src/generated/java` directories.
+  * Generator configuration is read from `db/jooq-generator-configuration.xml` file located in resources of any of modules.
+  * Database configuration is read from `config/application-default.properties` properties file, also located in resources.
+    Following properties are recognized:
+    * spring.datasource.url
+    * spring.datasource.username
+    * spring.datasource.password
+* New `discoverProjectDependencies` task that discovers dependencies between project's modules and serializes this structure to [`projectDependencies.ser`](https://github.com/vkuzel/Gradle-Project-Dependencies) files into resources directory of every module.
+  Structure is used in Quantum Leap project to sort resources loaded from various modules, etc.
+* Upgrades Thymeleaf to version 3.x.
 * Adds [Maven Central Repository](http://search.maven.org) and [JitPack Repository](https://jitpack.io) to all projects in the multi-project build.
-* Support for new `testFixtures` source set to store common test classes.
-Heavily inspired by [testFixtures dependencies in Gradle project](https://github.com/gradle/gradle/blob/master/gradle/testFixtures.gradle).
-Other projects of multi-project application can rely on this source set by declaring proper dependency.
+* Configures new `testFixtures` source set for every module. The source set should be used for test classes between modules. This is inspired by [testFixtures dependencies in Gradle project](https://github.com/gradle/gradle/blob/master/gradle/testFixtures.gradle).
+
+  To use sources from the `textFixtures` source set, use following configuration.
 
   ````groovy
   dependencies {
@@ -36,7 +42,7 @@ Other projects of multi-project application can rely on this source set by decla
       testRuntime (path: ":core-module", configuration: "testFixturesUsageRuntime")
   }
   ````
-  The source set can depend on other projects by declaring `testFixturesCompile` or `testFixturesRuntime` dependencies.
+  The `testFixtures` source set can depend on other projects by declaring `testFixturesCompile` or `testFixturesRuntime` dependencies.
   ````groovy
   dependencies {
       testFixturesCompile "some:library:1.0.0"
@@ -48,7 +54,7 @@ Other projects of multi-project application can rely on this source set by decla
 
 ### Configuration
 
-Add plugin dependency into the root project's `build.gradle` file. Then configure name of the Spring Boot sub-project and finally apply the plugin.
+Add the plugin dependency into the root project's `build.gradle` file and apply the plugin.
 
 ````groovy
 buildscript {
@@ -64,7 +70,7 @@ buildscript {
 apply plugin: 'cz.quantumleap'
 ````
 
-Eventually specify location of `@SpringBootApplication` class.   
+Eventually specify location of a `@SpringBootApplication` class in a module containing the class.   
 
 ````groovy
 ext {
@@ -76,15 +82,13 @@ ext {
 
 ### Run
 
-In root project run the `generateModuleDependencies` to store module dependencies to resources files.
-Domain class used to preserve dependencies can be found in [Gradle Project Dependencies](https://github.com/vkuzel/Gradle-Project-Dependencies).
+In root project run the `generateModuleDependencies` to generate and store module dependencies to resources files.
 
 ````bash
 gradle generateModuleDependencies
 ````
 
-Run the `generateJooqDomainObjects` task to generate domain objects from the database.
-Generated classes will be stored in `src/generated/java` directory.
+Run the `generateJooqDomainObjects` task to generate domain objects from the database schema. Generated classes will be stored in `src/generated/java` directory.
 
 ````bash
 gradle generateJooqDomainObjects
@@ -95,3 +99,11 @@ Start the application.
 ````bash
 gradle bootRun
 ````
+
+## Library versions
+
+* [Spring Boot](https://github.com/spring-projects/spring-boot) 1.5.1.RELEASE
+* [ProjectDependencies](https://github.com/vkuzel/Gradle-Project-Dependencies) 3.0.0
+* [jOOQ](https://github.com/jOOQ/jOOQ) 3.9.1
+* [Thymeleaf](https://github.com/thymeleaf) 3.0.3.RELEASE
+
