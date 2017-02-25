@@ -64,7 +64,7 @@ buildscript {
 apply plugin: 'cz.quantumleap'
 ````
 
-Optionally define the @SpringBootProject annotated class.   
+Eventually specify location of `@SpringBootApplication` class.   
 
 ````groovy
 ext {
