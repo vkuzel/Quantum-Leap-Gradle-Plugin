@@ -1,0 +1,6 @@
+.idea
+.gradle
+.DS_Store
+build
+*.iml
+install.sh

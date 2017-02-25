@@ -1,0 +1,30 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+jar {
+    baseName = 'quantumleap-gradle-plugin'
+    version = '0.0.1'
+}
+
+ext {
+    springBootVersion = '1.5.1.RELEASE'
+    gradleProjectDependenciesVersion = '3.0.0'
+    jooqVersion = '3.9.1'
+}
+
+dependencies {
+    compile gradleApi()
+
+    compile("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    compile("com.github.vkuzel:Gradle-Project-Dependencies:${gradleProjectDependenciesVersion}")
+    compile("org.jooq:jooq:${jooqVersion}")
+    compile("org.jooq:jooq-meta:${jooqVersion}")
+    compile("org.jooq:jooq-codegen:${jooqVersion}")
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+}
