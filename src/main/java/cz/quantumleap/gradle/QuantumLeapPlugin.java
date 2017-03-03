@@ -71,7 +71,7 @@ public class QuantumLeapPlugin implements Plugin<Project> {
 
         projectManager.getAllProjects().forEach(testFixturesSourceSetConfigurer::configure);
 
-        projectManager.getAllProjects().forEach(jooqDomainObjectsGeneratorConfigurer::configure);
+        jooqDomainObjectsGeneratorConfigurer.configure(projectManager.getSpringBootProject());
 
         thymeleafDependenciesConfigurer.configure(projectManager.getRootProject());
     }
