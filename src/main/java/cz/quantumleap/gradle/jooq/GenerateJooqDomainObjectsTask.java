@@ -58,7 +58,7 @@ public class GenerateJooqDomainObjectsTask extends DefaultTask {
     }
 
     private Configuration loadJooqConfiguration(Project project) throws IOException {
-        File file = ProjectUtils.findFileInProjectResources(project, JOOQ_GENERATOR_CONFIGURATION_PATH);
+        File file = ProjectUtils.findFileInProjectResources(project.getRootProject(), JOOQ_GENERATOR_CONFIGURATION_PATH);
 
         try (InputStream inputStream = Files.newInputStream(file.toPath())) {
             return GenerationTool.load(inputStream);

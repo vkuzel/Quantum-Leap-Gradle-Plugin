@@ -63,7 +63,7 @@ buildscript {
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.github.vkuzel:Quantum-Leap-Gradle-Plugin:1.1.1'
+        classpath 'com.github.vkuzel:Quantum-Leap-Gradle-Plugin:1.1.2'
     }
 }
 
