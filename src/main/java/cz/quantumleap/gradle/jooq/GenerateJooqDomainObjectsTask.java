@@ -66,7 +66,7 @@ public class GenerateJooqDomainObjectsTask extends DefaultTask {
     }
 
     private Properties loadJdbcProperties(Project project) throws IOException {
-        File file = ProjectUtils.findFileInProjectResources(project, APPLICATION_CONFIGURATION_PATH);
+        File file = ProjectUtils.findFileInProjectResources(project.getRootProject(), APPLICATION_CONFIGURATION_PATH);
 
         Properties properties = new Properties();
         try (InputStream inputStream = Files.newInputStream(file.toPath())) {
