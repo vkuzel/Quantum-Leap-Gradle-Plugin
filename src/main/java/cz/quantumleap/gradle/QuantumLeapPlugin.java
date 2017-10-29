@@ -82,7 +82,7 @@ public class QuantumLeapPlugin implements Plugin<Project> {
     }
 
     private void configureStandardPlugins(SubProject subProject) {
-        dependencyManagementPluginFeatures.apply(subProject);
+        dependencyManagementPluginFeatures.apply(subProject.getProject());
         subProject.getPlugins().apply(JavaPlugin.class);
     }
 }

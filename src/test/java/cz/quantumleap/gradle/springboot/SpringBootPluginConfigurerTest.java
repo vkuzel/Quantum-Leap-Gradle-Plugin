@@ -45,7 +45,7 @@ public class SpringBootPluginConfigurerTest {
         verify(findMainClassTask, times(1)).doFirst(any(Action.class));
     }
 
-    private SourceSet mockMainSourceSet(Project project) {
+    private SourceSet mockMainSourceSet(SpringBootProject springBootProject) {
         SourceSet sourceSet = mock(SourceSet.class);
 
         SourceSetContainer sourceSetContainer = mock(SourceSetContainer.class);
@@ -57,7 +57,10 @@ public class SpringBootPluginConfigurerTest {
         Convention convention = mock(Convention.class);
         doReturn(javaPluginConvention).when(convention).getPlugin(JavaPluginConvention.class);
 
+        Project project = mock(Project.class);
         doReturn(convention).when(project).getConvention();
+
+        doReturn(project).when(springBootProject).getProject();
 
         return sourceSet;
     }

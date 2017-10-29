@@ -25,16 +25,16 @@ public class SpringBootPluginConfigurer {
 
     private void configureFindMainClassTask(RootProject rootProject, SpringBootProject springBootProject, FindMainClassTask task) {
         // Java plugin has to be applied on core-project before this method is called!
-        SourceSet mainSourceSet = ProjectUtils.getSourceSets(springBootProject).getByName(SourceSet.MAIN_SOURCE_SET_NAME);
+        SourceSet mainSourceSet = ProjectUtils.getSourceSets(springBootProject.getProject()).getByName(SourceSet.MAIN_SOURCE_SET_NAME);
         task.setMainClassSourceSetOutput(mainSourceSet.getOutput());
 
         task.doFirst(t -> {
             // MainClass property configured in springBootProject will be copied
             // to rootProject because rootProject does have SpringBoot plugin
             // applied.
-            String mainClass = ProjectUtils.getExtraProperty(springBootProject, MAIN_CLASS_NAME_PROPERTY, null);
+            String mainClass = ProjectUtils.getExtraProperty(springBootProject.getProject(), MAIN_CLASS_NAME_PROPERTY, null);
             if (mainClass != null) {
-                ProjectUtils.setExtraProperty(rootProject, MAIN_CLASS_NAME_PROPERTY, mainClass);
+                ProjectUtils.setExtraProperty(rootProject.getProject(), MAIN_CLASS_NAME_PROPERTY, mainClass);
             }
         });
     }

@@ -85,7 +85,7 @@ public class QuantumLeapPluginTest {
         verify(springBootPluginConfigurer, times(1)).configure(rootProject, springBootProject);
         verify(testFixturesSourceSetConfigurer, times(1)).configure(anyProject);
         verify(jooqDomainObjectsGeneratorConfigurer, times(1)).configure(springBootProject);
-        verify(dependencyManagementPluginFeatures, times(1)).apply(subProject);
+        verify(dependencyManagementPluginFeatures, times(1)).apply(subProject.getProject());
         verify(thymeleafDependenciesConfigurer, times(1)).configure(rootProject);
 
         verify(repositoryHandler, times(1)).mavenCentral();

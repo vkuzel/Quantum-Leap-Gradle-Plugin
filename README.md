@@ -102,8 +102,8 @@ gradle bootRun
 
 ## Library versions
 
-* [Spring Boot](https://github.com/spring-projects/spring-boot) 1.5.1.RELEASE
+* [Spring Boot](https://github.com/spring-projects/spring-boot) 1.5.8.RELEASE
 * [ProjectDependencies](https://github.com/vkuzel/Gradle-Project-Dependencies) 3.0.0
-* [jOOQ](https://github.com/jOOQ/jOOQ) 3.9.1
-* [Thymeleaf](https://github.com/thymeleaf) 3.0.3.RELEASE
+* [jOOQ](https://github.com/jOOQ/jOOQ) 3.9.6
+* [Thymeleaf](https://github.com/thymeleaf) 3.0.8.RELEASE
 

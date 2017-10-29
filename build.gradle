@@ -11,9 +11,9 @@ jar {
 }
 
 ext {
-    springBootVersion = '1.5.1.RELEASE'
+    springBootVersion = '1.5.8.RELEASE'
     gradleProjectDependenciesVersion = '3.0.0'
-    jooqVersion = '3.9.1'
+    jooqVersion = '3.9.6'
     postgreSqlVersion = '9.4.1212.jre7'
 }
 

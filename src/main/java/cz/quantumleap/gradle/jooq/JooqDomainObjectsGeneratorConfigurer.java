@@ -11,6 +11,7 @@ public class JooqDomainObjectsGeneratorConfigurer {
 
     public void configure(SpringBootProject springBootProject) {
         springBootProject
+                .getProject()
                 .getRootProject()
                 .getAllprojects()
                 .forEach(this::addGeneratedSrcDirToMainSourceSet);
