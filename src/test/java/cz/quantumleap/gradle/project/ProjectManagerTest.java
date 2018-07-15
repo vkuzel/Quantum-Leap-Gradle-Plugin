@@ -29,9 +29,6 @@ public class ProjectManagerTest {
 
     @Test
     public void getRootProject() throws Exception {
-        // given
-        doReturn(project).when(project).getProject();
-
         // when
         RootProject rootProject = manager.getRootProject();
 
@@ -43,7 +40,6 @@ public class ProjectManagerTest {
     public void getSpringBootProject() throws Exception {
         // given
         Project coreProject = mock(Project.class);
-        doReturn(coreProject).when(coreProject).getProject();
         doReturn("core").when(coreProject).getName();
         doReturn(coreProject).when(project).findProject("core");
 

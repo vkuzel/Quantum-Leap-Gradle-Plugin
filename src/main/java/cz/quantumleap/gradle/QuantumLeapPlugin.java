@@ -7,13 +7,11 @@ import cz.quantumleap.gradle.springboot.SpringBootPluginConfigurer;
 import cz.quantumleap.gradle.testfixturessourceset.TestFixturesSourceSetConfigurer;
 import io.spring.gradle.dependencymanagement.DependencyManagementPlugin;
 import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension;
-import org.gradle.api.NonNullApi;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.JavaPlugin;
 import org.springframework.boot.gradle.plugin.SpringBootPlugin;
 
-@NonNullApi
 public class QuantumLeapPlugin implements Plugin<Project> {
 
     private static final String SPRING_BOOT_BOM = "org.springframework.boot:spring-boot-dependencies:" + SpringBootPlugin.class.getPackage().getImplementationVersion();
