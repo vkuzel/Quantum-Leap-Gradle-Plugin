@@ -1,25 +1,25 @@
 plugins {
-    `java-gradle-plugin`
-    `maven-publish`
+    id 'java-gradle-plugin'
+    id 'maven-publish'
 }
 
 repositories {
     mavenCentral()
-    maven("https://jitpack.io")
+    maven {
+        url 'https://jitpack.io'
+    }
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
-group = "cz.quantumleap"
-version = "2.0.3"
+group = "com.github.vkuzel"
+version = "2.0.3-1"
 
-val springBootVersion = "2.0.3.RELEASE"
-val gradleProjectDependenciesVersion = "3.0.0"
-val jooqVersion = "3.10.7"
-val postgreSqlVersion = "42.2.2"
+def springBootVersion = "2.0.3.RELEASE"
+def gradleProjectDependenciesVersion = "3.0.0"
+def jooqVersion = "3.10.7"
+def postgreSqlVersion = "42.2.2"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
@@ -36,7 +36,7 @@ dependencies {
 gradlePlugin {
     plugins {
         create("QuantumLeapPlugin") {
-            id = "cz.quantumleap"
+            id = "com.github.vkuzel.Quantum-Leap-Gradle-Plugin"
             implementationClass = "cz.quantumleap.gradle.QuantumLeapPlugin"
         }
     }
