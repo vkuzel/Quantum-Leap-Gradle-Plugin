@@ -2,23 +2,23 @@
 
 [![](https://jitpack.io/v/vkuzel/Quantum-Leap-Gradle-Plugin.svg)](https://jitpack.io/#vkuzel/Quantum-Leap-Gradle-Plugin)
 
-Gradle build plugin for the Quantum Leap project so project's build scripts can be smaller and cleaner.
-Probably not useful for anything except for Quantum Leap, still can serve as a good source of inspiration.
+Gradle build plugin for the Quantum Leap project, so the project's build scripts can be smaller and cleaner.
+Probably its not useful for anything else except for Quantum Leap, but you can check it out and get some inspiration from it.
 
-Quantum Leap (not published yet) is a project template for building Java multi-module web applications backed by Spring Boot, jOOQ, Thymeleaf and PostgreSQL.
+Quantum Leap is a project template for building Java multi-module web applications backed by Spring Boot, jOOQ, Thymeleaf and PostgreSQL.
 The plugin expects following project structure.
 
 ````
 root project <-- Here's applied the plugin
 |
-+--- core module <-- Module containing @SpringBootProject annotation, its name must be "core"
++--- core module <-- Module that contains main class annotated by @SpringBootProject annotation. Name of the module has to be "core".
 |
 \--- some other modules
 ````
 
 ## Features
 
-* Applies [Spring Boot Gradle plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-gradle-plugin.html) to a root project and fixes `findMainClass' task in multi-module projects.
+* Applies [Spring Boot Gradle plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-gradle-plugin.html) to a root project and fixes Spring Boot's `MainClassConvention` responsible for finding main class in the project.
 * New `generateJooqDomainObjects` task, generates jOOQ domain objects to `src/generated/java` directories.
   * Generator configuration is read from `db/jooq-generator-configuration.xml` file located in resources of any of modules.
   * Database configuration is read from `config/application-default.properties` properties file, also located in resources.
@@ -26,7 +26,7 @@ root project <-- Here's applied the plugin
     * spring.datasource.url
     * spring.datasource.username
     * spring.datasource.password
-* New `discoverProjectDependencies` task that discovers dependencies between project's modules and serializes this structure to [`projectDependencies.ser`](https://github.com/vkuzel/Gradle-Project-Dependencies) files into resources directory of every module.
+* New `discoverProjectDependencies` task. It discovers dependencies between project's modules and serializes this structure into [`projectDependencies.ser`](https://github.com/vkuzel/Gradle-Project-Dependencies) files and puts those into the resources directory of every module.
   Structure is used in Quantum Leap project to sort resources loaded from various modules, etc.
 * Upgrades Thymeleaf to version 3.x.
 * Adds [Maven Central Repository](http://search.maven.org) and [JitPack Repository](https://jitpack.io) to all projects in the multi-project build.
@@ -34,76 +34,78 @@ root project <-- Here's applied the plugin
 
   To use sources from the `textFixtures` source set, use following configuration.
 
-  ````groovy
+  ```kotlin
   dependencies {
       // Notice the name of configuration!
-      testCompile (path: ":core-module", configuration: "testFixturesUsageCompile")
-      // Or you can depend on runtime configuration.
-      testRuntime (path: ":core-module", configuration: "testFixturesUsageRuntime")
+      testCompile(project(path = ":core-module", configuration = "testFixturesUsageCompile"))  
+      // Or you can depend on runtime-only configuration.
+      testRuntime(project(path = ":core-module", configuration = "testFixturesUsageRuntime"))  
   }
-  ````
+  ```
   The `testFixtures` source set can depend on other projects by declaring `testFixturesCompile` or `testFixturesRuntime` dependencies.
-  ````groovy
+  ```kotlin
   dependencies {
-      testFixturesCompile "some:library:1.0.0"
-      testFixturesRuntime "other:library:1.0.0"
+      testFixturesCompile("some:library:1.0.0")
+      testFixturesRuntime("other:library:1.0.0")
   }
-  ````
+  ```
 
 ## Getting Started
 
 ### Configuration
 
-Add the plugin dependency into the root project's `build.gradle` file and apply the plugin.
+The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block) to avoid some problems connected to a Kotlin build scripts and an old way of apply plugins.
 
-````groovy
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
+1. Add the plugin repository to your project's `settings.gradle.kts` file.
+
+    ```kotlin
+    pluginManagement {
+        repositories {
+            mavenCentral()
+            maven(url = "https://jitpack.io")
+        }
     }
-    dependencies {
-        classpath 'com.github.vkuzel:Quantum-Leap-Gradle-Plugin:1.1.2'
+    ```
+    
+2. Apply the plugin to your root project's `build.gradle.kts`.
+
+    ```kotlin
+    plugins {
+        id("cz.quantumleap") version "2.0.3"
     }
-}
+    ```
 
-apply plugin: 'cz.quantumleap'
-````
+3. Optionally specify locataion of a main class in a module that contains it.
 
-Eventually specify location of a `@SpringBootApplication` class in a module containing the class.   
-
-````groovy
-ext {
-    // Parameter mainClassName allows you to set Spring Boot's main class
-    // explicitly and to suppress findMainClass task.
-    mainClassName = "your.class.Name"
-}
-````
+    ```kotlin
+    ext {
+        // Parameter mainClassName allows you to set Spring Boot's main class
+        // explicitly and to suppress findMainClass task.
+        mainClassName = "your.class.Name"
+    }
+    ```
 
 ### Run
 
-In root project run the `generateModuleDependencies` to generate and store module dependencies to resources files.
+1. In the root project run the `generateModuleDependencies` to generate and store module dependencies to resources files.
 
-````bash
-gradle generateModuleDependencies
-````
+    ```bash
+    gradle generateModuleDependencies
+    ```
 
-Run the `generateJooqDomainObjects` task to generate domain objects from the database schema. Generated classes will be stored in `src/generated/java` directory.
+2. Run the `generateJooqDomainObjects` task to generate domain objects from the database schema. Generated classes will be stored in `src/generated/java` directory.
+    
+    ```bash
+    gradle generateJooqDomainObjects
+    ```
 
-````bash
-gradle generateJooqDomainObjects
-````
+3. Start the application.
 
-Start the application.
-
-````bash
-gradle bootRun
-````
+    ```bash
+    gradle bootRun
+    ```
 
 ## Library versions
 
-* [Spring Boot](https://github.com/spring-projects/spring-boot) 1.5.8.RELEASE
+* [Spring Boot](https://github.com/spring-projects/spring-boot) 2.0.3.RELEASE
 * [ProjectDependencies](https://github.com/vkuzel/Gradle-Project-Dependencies) 3.0.0
-* [jOOQ](https://github.com/jOOQ/jOOQ) 3.9.6
-* [Thymeleaf](https://github.com/thymeleaf) 3.0.8.RELEASE
-

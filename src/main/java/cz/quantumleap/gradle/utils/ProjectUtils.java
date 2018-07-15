@@ -18,19 +18,13 @@ public class ProjectUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(PluginUtils.class);
 
     public static SourceSetContainer getSourceSets(Project project) {
-        JavaPluginConvention plugin = project.getConvention()
-                .getPlugin(JavaPluginConvention.class);
-        if (plugin != null) {
-            return plugin.getSourceSets();
-        } else {
-            throw new IllegalStateException("Project " + project.getName() + " does not have JavaPlugin applied! It's main source set cannot be found!");
-        }
+        return project.getConvention().getPlugin(JavaPluginConvention.class).getSourceSets();
     }
 
     public static String getExtraProperty(Project project, String propertyName, String defaultValue) {
         LOGGER.debug("Getting extra property " + propertyName + " from project " + project.getName());
         ExtraPropertiesExtension ext = project.getExtensions().getExtraProperties();
-        if (ext != null && ext.has(propertyName)) {
+        if (ext.has(propertyName)) {
             Object property = ext.get(propertyName);
             if (property != null) {
                 if (property instanceof String) {
@@ -50,15 +44,11 @@ public class ProjectUtils {
     public static void setExtraProperty(Project project, String propertyName, String propertyValue) {
         LOGGER.debug("Setting extra property " + propertyName + "=" + propertyValue + " to project " + project.getName());
         ExtraPropertiesExtension ext = project.getExtensions().getExtraProperties();
-        if (ext != null) {
-            if (ext.has(propertyName)) {
-                LOGGER.warn("Extra property " + propertyName + " is already set and it will be overwritten.");
-            }
-
-            ext.set(propertyName, propertyValue);
-        } else {
-            LOGGER.debug("Extra properties in project " + project.getName() + " are not available.");
+        if (ext.has(propertyName)) {
+            LOGGER.warn("Extra property " + propertyName + " is already set and it will be overwritten.");
         }
+
+        ext.set(propertyName, propertyValue);
     }
 
     public static File findFileInProjectResources(Project project, String path) {
