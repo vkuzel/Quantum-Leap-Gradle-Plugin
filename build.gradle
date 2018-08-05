@@ -14,7 +14,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 group = "com.github.vkuzel"
-version = "2.0.3-2"
+version = "2.0.3-4"
 
 def springBootVersion = "2.0.3.RELEASE"
 def gradleProjectDependenciesVersion = "3.0.0"
@@ -28,6 +28,10 @@ dependencies {
     compile("org.jooq:jooq-meta:$jooqVersion")
     compile("org.jooq:jooq-codegen:$jooqVersion")
     compile("org.postgresql:postgresql:$postgreSqlVersion")
+    compile("javax.xml.bind:jaxb-api:2.2.11")
+    compile("com.sun.xml.bind:jaxb-core:2.2.11")
+    compile("com.sun.xml.bind:jaxb-impl:2.2.11")
+    compile("javax.activation:activation:1.1.1")
 
     testCompile("junit:junit:4.12")
     testCompile("org.mockito:mockito-core:2.15.0")
