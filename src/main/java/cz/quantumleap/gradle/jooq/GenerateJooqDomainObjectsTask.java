@@ -6,18 +6,29 @@ import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskAction;
 import org.jooq.util.GenerationTool;
 import org.jooq.util.jaxb.Configuration;
+import org.jooq.util.jaxb.Generator;
 import org.jooq.util.jaxb.Jdbc;
+import org.jooq.util.jaxb.Schema;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class GenerateJooqDomainObjectsTask extends DefaultTask {
 
+    private static final String TEMP_DIR_PREFIX = "quantumleap-jooq";
+
     private static final String GENERATED_SRC_PATH = "src/generated/java";
-    private static final String GENERATED_CLASSES_PACKAGE_PREFIX = "cz.quantumleap.";
+    private static final String GENERATED_CLASSES_PACKAGE = "cz.quantumleap";
+    private static final String GENERATED_CLASSES_PATH = "cz/quantumleap";
 
     private static final String JOOQ_GENERATOR_CONFIGURATION_PATH = "db/jooq-generator-configuration.xml";
     private static final String APPLICATION_CONFIGURATION_PATH = "config/application-default.properties";
@@ -29,24 +40,39 @@ public class GenerateJooqDomainObjectsTask extends DefaultTask {
     @TaskAction
     public void generate() throws Exception {
         Project project = getProject();
-
-        Configuration configuration = initJooqGeneratorConfiguration(project);
-
+        Path tempDirectory = Files.createTempDirectory(TEMP_DIR_PREFIX);
+        Configuration configuration = initJooqGeneratorConfiguration(project, tempDirectory);
         GenerationTool.generate(configuration);
+        moveGeneratedClassesToSpringBootProject(tempDirectory);
     }
 
-    private Configuration initJooqGeneratorConfiguration(Project project) throws IOException {
-        Configuration configuration = loadJooqConfiguration(project);
+    private Configuration initJooqGeneratorConfiguration(Project project, Path targetDirectory) throws IOException {
+        Configuration configuration = loadJooqConfiguration();
+        Generator generator = configuration.getGenerator();
 
-        configuration.getGenerator().getDatabase().setInputSchema(project.getName());
-
-        Properties properties = loadJdbcProperties(project);
+        Properties properties = loadJdbcProperties();
         applyJdbcProperties(properties, configuration.getJdbc());
 
-        configuration.getGenerator().getTarget().setDirectory(getGeneratedSrcPath(project).getAbsolutePath());
-        configuration.getGenerator().getTarget().setPackageName(getGeneratedClassesPackageName(project));
+        List<Schema> schemata = getAllProjects().stream().map(this::createSchema).collect(Collectors.toList());
+        generator.getDatabase().withSchemata(schemata);
+
+        generator.getTarget().setDirectory(targetDirectory.toAbsolutePath().toString());
+        generator.getTarget().setPackageName(GENERATED_CLASSES_PACKAGE);
 
         return configuration;
+    }
+
+    private void moveGeneratedClassesToSpringBootProject(Path generatedClassesPath) throws IOException {
+        Path fromPath = generatedClassesPath.resolve(GENERATED_CLASSES_PATH);
+        Path toPath = getGeneratedSrcPath(getProject()).toPath().resolve(GENERATED_CLASSES_PATH);
+
+        Files.createDirectories(toPath);
+        Files.walk(toPath)
+                .sorted(Comparator.reverseOrder())
+                .map(Path::toFile)
+                .forEach(File::delete);
+
+        Files.move(fromPath, toPath, StandardCopyOption.REPLACE_EXISTING);
     }
 
     private void applyJdbcProperties(Properties properties, Jdbc jdbc) {
@@ -57,16 +83,16 @@ public class GenerateJooqDomainObjectsTask extends DefaultTask {
 
     }
 
-    private Configuration loadJooqConfiguration(Project project) throws IOException {
-        File file = ProjectUtils.findFileInProjectResources(project.getRootProject(), JOOQ_GENERATOR_CONFIGURATION_PATH);
+    private Configuration loadJooqConfiguration() throws IOException {
+        File file = ProjectUtils.findFileInProjectResources(getProject().getRootProject(), JOOQ_GENERATOR_CONFIGURATION_PATH);
 
         try (InputStream inputStream = Files.newInputStream(file.toPath())) {
             return GenerationTool.load(inputStream);
         }
     }
 
-    private Properties loadJdbcProperties(Project project) throws IOException {
-        File file = ProjectUtils.findFileInProjectResources(project.getRootProject(), APPLICATION_CONFIGURATION_PATH);
+    private Properties loadJdbcProperties() throws IOException {
+        File file = ProjectUtils.findFileInProjectResources(getProject().getRootProject(), APPLICATION_CONFIGURATION_PATH);
 
         Properties properties = new Properties();
         try (InputStream inputStream = Files.newInputStream(file.toPath())) {
@@ -75,11 +101,17 @@ public class GenerateJooqDomainObjectsTask extends DefaultTask {
         return properties;
     }
 
-    static File getGeneratedSrcPath(Project project) {
-        return new File(project.getProjectDir(), GENERATED_SRC_PATH);
+    private Set<Project> getAllProjects() {
+        return getProject().getRootProject().getAllprojects();
     }
 
-    private static String getGeneratedClassesPackageName(Project project) {
-        return GENERATED_CLASSES_PACKAGE_PREFIX + project.getName();
+    private Schema createSchema(Project project) {
+        Schema schema = new Schema();
+        schema.setInputSchema(project.getName());
+        return schema;
+    }
+
+    static File getGeneratedSrcPath(Project project) {
+        return new File(project.getProjectDir(), GENERATED_SRC_PATH);
     }
 }

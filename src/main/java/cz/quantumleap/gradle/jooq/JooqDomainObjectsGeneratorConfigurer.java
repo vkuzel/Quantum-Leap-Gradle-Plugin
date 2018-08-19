@@ -5,24 +5,14 @@ import cz.quantumleap.gradle.utils.ProjectUtils;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.SourceSet;
 
-import java.util.Set;
-
 public class JooqDomainObjectsGeneratorConfigurer {
 
     private static final String GENERATE_JOOQ_DOMAIN_OBJECTS_TASK_NAME = "generateJooqDomainObjects";
 
     public void configure(SpringBootProject springBootProject) {
-        Set<Project> projects = springBootProject
-                .getProject()
-                .getRootProject()
-                .getAllprojects();
-
-        for (Project project : projects) {
-            this.addGeneratedSrcDirToMainSourceSet(project);
-
-            GenerateJooqDomainObjectsTask generate = project.getTasks().create(GENERATE_JOOQ_DOMAIN_OBJECTS_TASK_NAME, GenerateJooqDomainObjectsTask.class);
-            describeTask(generate);
-        }
+        GenerateJooqDomainObjectsTask generate =  springBootProject.getTasks().create(GENERATE_JOOQ_DOMAIN_OBJECTS_TASK_NAME, GenerateJooqDomainObjectsTask.class);
+        describeTask(generate);
+        this.addGeneratedSrcDirToMainSourceSet(springBootProject.getProject());
     }
 
     private void addGeneratedSrcDirToMainSourceSet(Project project) {
