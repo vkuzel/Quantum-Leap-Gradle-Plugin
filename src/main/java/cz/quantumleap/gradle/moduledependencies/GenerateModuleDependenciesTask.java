@@ -10,6 +10,7 @@ import org.gradle.api.artifacts.component.ProjectComponentIdentifier;
 import org.gradle.api.artifacts.result.ResolutionResult;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
 import org.gradle.api.artifacts.result.ResolvedDependencyResult;
+import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.TaskAction;
 import org.slf4j.Logger;
@@ -30,8 +31,6 @@ public class GenerateModuleDependenciesTask extends DefaultTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GenerateModuleDependenciesTask.class);
 
-    private static final String PROJECT_CONFIGURATION_COMPILE = "compile";
-
     private static final String PROJECT_DEPENDENCIES_PATH = "projectDependencies.ser";
 
     @TaskAction
@@ -44,7 +43,7 @@ public class GenerateModuleDependenciesTask extends DefaultTask {
     }
 
     void findAllDependencies(Project project, Map<Project, ProjectDependencies> dependenciesMap) {
-        Configuration compileConfiguration = project.getConfigurations().getByName(PROJECT_CONFIGURATION_COMPILE);
+        Configuration compileConfiguration = project.getConfigurations().getByName(JavaPlugin.COMPILE_CLASSPATH_CONFIGURATION_NAME);
         ResolutionResult result = compileConfiguration.getIncoming().getResolutionResult();
         ResolvedComponentResult componentResult = result.getRoot();
 
@@ -62,11 +61,11 @@ public class GenerateModuleDependenciesTask extends DefaultTask {
         dependenciesMap.put(project, moduleDependencies);
         LOGGER.debug("Discovered module dependencies: {}", moduleDependencies.toString());
 
-        children.forEach(child -> {
+        for (Project child : children) {
             if (!dependenciesMap.containsKey(child)) {
                 findAllDependencies(child, dependenciesMap);
             }
-        });
+        }
     }
 
     private ProjectDependencies createModuleDependencies(Project project, List<Project> children) {
