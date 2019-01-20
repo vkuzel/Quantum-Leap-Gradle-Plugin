@@ -4,11 +4,11 @@ import cz.quantumleap.gradle.utils.ProjectUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskAction;
-import org.jooq.util.GenerationTool;
-import org.jooq.util.jaxb.Configuration;
-import org.jooq.util.jaxb.Generator;
-import org.jooq.util.jaxb.Jdbc;
-import org.jooq.util.jaxb.Schema;
+import org.jooq.codegen.GenerationTool;
+import org.jooq.meta.jaxb.Configuration;
+import org.jooq.meta.jaxb.Generator;
+import org.jooq.meta.jaxb.Jdbc;
+import org.jooq.meta.jaxb.Schema;
 
 import java.io.File;
 import java.io.IOException;
