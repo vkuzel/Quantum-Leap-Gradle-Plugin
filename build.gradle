@@ -14,12 +14,12 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 group = "com.github.vkuzel"
-version = "2.1.2-0"
+version = "2.1.4-0"
 
-def springBootVersion = "2.1.2.RELEASE"
+def springBootVersion = "2.1.4.RELEASE"
 def gradleProjectDependenciesVersion = "3.0.0"
-def jooqVersion = "3.11.9"
-def postgreSqlVersion = "42.2.2"
+def jooqVersion = "3.11.10"
+def postgreSqlVersion = "42.2.5"
 
 dependencies {
     compile("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
@@ -31,7 +31,7 @@ dependencies {
     compile("javax.xml.bind:jaxb-api:2.2.12")
     compile("com.sun.xml.bind:jaxb-core:2.2.11")
     compile("com.sun.xml.bind:jaxb-impl:2.2.11")
-    compile("javax.activation:activation:1.1.1")
+    compile("javax.activation:javax.activation-api:1.2.0")
 
     testCompile("junit:junit:4.12")
     testCompile("org.mockito:mockito-core:2.23.4")

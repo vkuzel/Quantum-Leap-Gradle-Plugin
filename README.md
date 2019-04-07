@@ -71,7 +71,7 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
 
     ```kotlin
     plugins {
-        id("cz.quantumleap") version "2.1.2-0"
+        id("cz.quantumleap") version "2.1.4-0"
     }
     ```
 
@@ -105,7 +105,33 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
     gradle bootRun
     ```
 
+## Development
+
+1. Build the plugin into your local Maven repository
+
+    ```bash
+    gradle publishToMavenLocal
+    ```
+
+2. Configure your project to use the plugin located in Maven local
+
+    ```kotlin
+    // settings.gradle.kts
+    pluginManagement {
+        repositories {
+            mavenLocal()
+        }
+    }
+    ```
+
+    ```kotlin
+    // build.gradle.kts
+    plugins {
+        id("com.github.vkuzel.Quantum-Leap-Gradle-Plugin") version "correct version"
+    }
+    ```
+
 ## Library versions
 
-* [Spring Boot](https://github.com/spring-projects/spring-boot) 2.1.2.RELEASE
+* [Spring Boot](https://github.com/spring-projects/spring-boot) 2.1.4.RELEASE
 * [ProjectDependencies](https://github.com/vkuzel/Gradle-Project-Dependencies) 3.0.0
