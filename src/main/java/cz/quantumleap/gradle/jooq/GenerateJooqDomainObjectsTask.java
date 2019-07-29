@@ -107,7 +107,7 @@ public class GenerateJooqDomainObjectsTask extends DefaultTask {
 
     private Schema createSchema(Project project) {
         Schema schema = new Schema();
-        schema.setInputSchema(project.getName());
+        schema.setInputSchema(project.getName().replace('-', '_'));
         return schema;
     }
 
