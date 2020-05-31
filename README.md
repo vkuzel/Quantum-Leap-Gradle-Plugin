@@ -71,7 +71,7 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
 
     ```kotlin
     plugins {
-        id("cz.quantumleap") version "2.1.4-1"
+        id("cz.quantumleap") version "2.3.0"
     }
     ```
 
@@ -133,5 +133,5 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
 
 ## Library versions
 
-* [Spring Boot](https://github.com/spring-projects/spring-boot) 2.1.4.RELEASE
+* [Spring Boot](https://github.com/spring-projects/spring-boot) 2.3.0.RELEASE
 * [ProjectDependencies](https://github.com/vkuzel/Gradle-Project-Dependencies) 3.0.0
