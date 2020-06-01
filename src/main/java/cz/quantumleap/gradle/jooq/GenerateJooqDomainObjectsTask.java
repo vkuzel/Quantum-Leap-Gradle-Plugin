@@ -8,7 +8,8 @@ import org.jooq.codegen.GenerationTool;
 import org.jooq.meta.jaxb.Configuration;
 import org.jooq.meta.jaxb.Generator;
 import org.jooq.meta.jaxb.Jdbc;
-import org.jooq.meta.jaxb.Schema;
+import org.jooq.meta.jaxb.SchemaMappingType;
+import org.jooq.util.xml.jaxb.Schema;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class GenerateJooqDomainObjectsTask extends DefaultTask {
         Properties properties = loadJdbcProperties();
         applyJdbcProperties(properties, configuration.getJdbc());
 
-        List<Schema> schemata = getAllProjects().stream().map(this::createSchema).collect(Collectors.toList());
+        List<SchemaMappingType> schemata = getAllProjects().stream().map(this::createSchemaMappingType).collect(Collectors.toList());
         generator.getDatabase().withSchemata(schemata);
 
         generator.getTarget().setDirectory(targetDirectory.toAbsolutePath().toString());
@@ -105,10 +106,11 @@ public class GenerateJooqDomainObjectsTask extends DefaultTask {
         return getProject().getRootProject().getAllprojects();
     }
 
-    private Schema createSchema(Project project) {
-        Schema schema = new Schema();
-        schema.setInputSchema(project.getName().replace('-', '_'));
-        return schema;
+    private SchemaMappingType createSchemaMappingType(Project project) {
+        SchemaMappingType schemaMappingType =  new SchemaMappingType();
+        String schemaName = project.getName().replace('-', '_');
+        schemaMappingType.setInputSchema(schemaName);
+        return schemaMappingType;
     }
 
     static File getGeneratedSrcPath(Project project) {

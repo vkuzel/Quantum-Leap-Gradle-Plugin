@@ -14,27 +14,30 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 group = "com.github.vkuzel"
-version = "2.3.0"
+version = "2.3.0-1"
 
 def springBootVersion = "2.3.0.RELEASE"
+def dependencyManagementVersion = "1.0.9.RELEASE"
 def gradleProjectDependenciesVersion = "3.0.0"
 def jooqVersion = "3.13.2"
 def postgreSqlVersion = "42.2.12"
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
-    compile("com.github.vkuzel:Gradle-Project-Dependencies:$gradleProjectDependenciesVersion")
-    compile("org.jooq:jooq:$jooqVersion")
-    compile("org.jooq:jooq-meta:$jooqVersion")
-    compile("org.jooq:jooq-codegen:$jooqVersion")
-    compile("org.postgresql:postgresql:$postgreSqlVersion")
-    compile("javax.xml.bind:jaxb-api:2.2.12")
-    compile("com.sun.xml.bind:jaxb-core:2.2.11")
-    compile("com.sun.xml.bind:jaxb-impl:2.2.11")
-    compile("javax.activation:javax.activation-api:1.2.0")
+    implementation("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-loader-tools:$springBootVersion")
+    implementation("io.spring.gradle:dependency-management-plugin:$dependencyManagementVersion")
+    implementation("com.github.vkuzel:Gradle-Project-Dependencies:$gradleProjectDependenciesVersion")
+    implementation("org.jooq:jooq:$jooqVersion")
+    implementation("org.jooq:jooq-meta:$jooqVersion")
+    implementation("org.jooq:jooq-codegen:$jooqVersion")
+    implementation("org.postgresql:postgresql:$postgreSqlVersion")
+    implementation("javax.xml.bind:jaxb-api:2.2.12")
+    implementation("com.sun.xml.bind:jaxb-core:2.2.11")
+    implementation("com.sun.xml.bind:jaxb-impl:2.2.11")
+    implementation("javax.activation:javax.activation-api:1.2.0")
 
-    testCompile("junit:junit:4.12")
-    testCompile("org.mockito:mockito-core:2.23.4")
+    testImplementation("junit:junit:4.12")
+    testImplementation("org.mockito:mockito-core:2.23.4")
 }
 
 gradlePlugin {
