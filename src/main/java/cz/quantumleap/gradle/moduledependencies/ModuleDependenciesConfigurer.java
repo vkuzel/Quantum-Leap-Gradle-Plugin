@@ -10,7 +10,7 @@ public class ModuleDependenciesConfigurer {
     static final String GENERATE_MODULE_DEPENDENCIES_TASK_NAME = "generateModuleDependencies";
 
     public void configure(SpringBootProject springBootProject) {
-        springBootProject.getDependencies().add(JavaPlugin.COMPILE_CONFIGURATION_NAME, MODULE_DEPENDENCIES_DEPENDENCY);
+        springBootProject.getDependencies().add(JavaPlugin.API_CONFIGURATION_NAME, MODULE_DEPENDENCIES_DEPENDENCY);
 
         GenerateModuleDependenciesTask generate = springBootProject.getTasks().create(GENERATE_MODULE_DEPENDENCIES_TASK_NAME, GenerateModuleDependenciesTask.class);
         describeTask(generate);

@@ -10,7 +10,7 @@ public class JooqDomainObjectsGeneratorConfigurer {
     private static final String GENERATE_JOOQ_DOMAIN_OBJECTS_TASK_NAME = "generateJooqDomainObjects";
 
     public void configure(SpringBootProject springBootProject) {
-        GenerateJooqDomainObjectsTask generate =  springBootProject.getTasks().create(GENERATE_JOOQ_DOMAIN_OBJECTS_TASK_NAME, GenerateJooqDomainObjectsTask.class);
+        GenerateJooqDomainObjectsTask generate = springBootProject.getTasks().create(GENERATE_JOOQ_DOMAIN_OBJECTS_TASK_NAME, GenerateJooqDomainObjectsTask.class);
         describeTask(generate);
         this.addGeneratedSrcDirToMainSourceSet(springBootProject.getProject());
     }
@@ -23,7 +23,7 @@ public class JooqDomainObjectsGeneratorConfigurer {
     private void describeTask(GenerateJooqDomainObjectsTask task) {
         String description = "Generates jOOQ domain objects into src/generated/java directories." +
                 " Generator works only with PostgreSQL." +
-                " It reads jOOQ configuration from `db/jooq-generator-configuration.xml' and connection properties from `config/application-default.properties'. "+
+                " It reads jOOQ configuration from `db/jooq-generator-configuration.xml' and connection properties from `config/application-default.properties'. " +
                 " Following connection properties are recognized: " +
                 "     spring.datasource.url" +
                 "     spring.datasource.username" +

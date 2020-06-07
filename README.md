@@ -30,25 +30,6 @@ root project <-- Here's applied the plugin
   Structure is used in Quantum Leap project to sort resources loaded from various modules, etc.
 * Upgrades Thymeleaf to version 3.x.
 * Adds [Maven Central Repository](http://search.maven.org) and [JitPack Repository](https://jitpack.io) to all projects in the multi-project build.
-* Configures new `testFixtures` source set for every module. The source set should be used for test classes between modules. This is inspired by [testFixtures dependencies in Gradle project](https://github.com/gradle/gradle/blob/master/gradle/testFixtures.gradle).
-
-  To use sources from the `textFixtures` source set, use following configuration.
-
-  ```kotlin
-  dependencies {
-      // Notice the name of configuration!
-      testCompile(project(path = ":core-module", configuration = "testFixturesUsageCompile"))  
-      // Or you can depend on runtime-only configuration.
-      testRuntime(project(path = ":core-module", configuration = "testFixturesUsageRuntime"))  
-  }
-  ```
-  The `testFixtures` source set can depend on other projects by declaring `testFixturesCompile` or `testFixturesRuntime` dependencies.
-  ```kotlin
-  dependencies {
-      testFixturesCompile("some:library:1.0.0")
-      testFixturesRuntime("other:library:1.0.0")
-  }
-  ```
 
 ## Getting Started
 
@@ -71,11 +52,11 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
 
     ```kotlin
     plugins {
-        id("cz.quantumleap") version "2.3.0-1"
+        id("cz.quantumleap") version "2.3.0-2"
     }
     ```
 
-3. Optionally specify locataion of a main class in a module that contains it.
+3. Optionally specify location of a main class in a module that contains it.
 
     ```kotlin
     ext {
