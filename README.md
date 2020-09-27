@@ -52,7 +52,7 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
 
     ```kotlin
     plugins {
-        id("cz.quantumleap") version "2.3.4-1"
+        id("cz.quantumleap") version "2.3.4-2"
     }
     ```
 
