@@ -1,6 +1,6 @@
-.idea
-.gradle
+/.idea
+/.gradle
+/gradle*
 .DS_Store
-build
-*.iml
-install.sh
+/build
+/*.iml

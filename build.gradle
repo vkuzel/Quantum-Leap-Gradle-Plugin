@@ -1,5 +1,5 @@
 plugins {
-    id 'java-gradle-plugin'
+    id 'dev.gradleplugins.java-gradle-plugin' version '1.1'
     id 'maven-publish'
 }
 
@@ -14,7 +14,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 group = "com.github.vkuzel"
-version = "2.3.4"
+version = "2.3.4-1"
 
 def springBootVersion = "2.3.4.RELEASE"
 def dependencyManagementVersion = "1.0.10.RELEASE"
@@ -41,6 +41,10 @@ dependencies {
 }
 
 gradlePlugin {
+    compatibility {
+        minimumGradleVersion = '6.3'
+    }
+
     plugins {
         create("QuantumLeapPlugin") {
             id = "com.github.vkuzel.Quantum-Leap-Gradle-Plugin"

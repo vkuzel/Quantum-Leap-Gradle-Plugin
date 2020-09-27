@@ -11,6 +11,7 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.JavaLibraryPlugin;
 import org.gradle.api.plugins.JavaPluginConvention;
+import org.gradle.internal.jvm.Jvm;
 import org.springframework.boot.gradle.plugin.SpringBootPlugin;
 
 public class QuantumLeapPlugin implements Plugin<Project> {
@@ -24,8 +25,8 @@ public class QuantumLeapPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
+        validateJavaVersion();
         ProjectManager projectManager = new ProjectManager(project);
-
         apply(projectManager);
     }
 
@@ -41,13 +42,30 @@ public class QuantumLeapPlugin implements Plugin<Project> {
         project.getRepositories().maven(mavenArtifactRepository -> mavenArtifactRepository.setUrl(JITPACK_REPOSITORY));
 
         project.getPlugins().apply(JavaLibraryPlugin.class);
-        // Spring Boot is not ready for Jigsaw yet. Also, there is a collision between deprecated Java EE (JAXB) modules
-        // and external libraries that should replace those in Java 11. Until Java 11 and until full modularization of
-        // Spring Boot the Quantum Leap code will be Java 8 compatible only.
-        project.getConvention().getPlugin(JavaPluginConvention.class)
-                .setSourceCompatibility(JavaVersion.VERSION_1_8);
+        JavaPluginConvention javaPlugin = project.getConvention().getPlugin(JavaPluginConvention.class);
+        javaPlugin.setSourceCompatibility(JavaVersion.VERSION_11);
+        javaPlugin.setTargetCompatibility(JavaVersion.VERSION_11);
         project.getPlugins().apply(DependencyManagementPlugin.class);
         project.getExtensions().getByType(DependencyManagementExtension.class)
                 .imports(importsHandler -> importsHandler.mavenBom(SPRING_BOOT_BOM));
+    }
+
+    private void validateJavaVersion() {
+        JavaVersion javaVersion = Jvm.current().getJavaVersion();
+        if (JavaVersion.VERSION_14.compareTo(javaVersion) <= 0) {
+            String msg = "Java 14 and newer are not supported at this moment!\n" +
+                    "\n" +
+                    "The project uses jOOQ which has a class name `org.jooq.Record` confliting with\n" +
+                    "new `java.lang.Record`. This causes an error if your IDE optimize imports to\n" +
+                    "auto-import.\n" +
+                    "\n" +
+                    "This can be fixed by specifying explicit import and configuring your IDE to not\n" +
+                    "to optimize imports. But for now, let's just not use Java 14 and newer versions\n" +
+                    "until a proper solution will be created in jOOQ project or in IDEA.\n" +
+                    "\n" +
+                    "* https://github.com/jOOQ/jOOQ/issues/9988\n" +
+                    "* https://youtrack.jetbrains.com/issue/IDEA-251602";
+            throw new IllegalStateException(msg);
+        }
     }
 }

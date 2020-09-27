@@ -20,13 +20,13 @@ root project <-- Here's applied the plugin
 
 * Applies [Spring Boot Gradle plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-gradle-plugin.html) to a root project and fixes Spring Boot's `MainClassConvention` responsible for finding main class in the project.
 * New `generateJooqDomainObjects` task, generates jOOQ domain objects to `src/generated/java` directories.
-  * Generator configuration is read from `db/jooq-generator-configuration.xml` file located in resources of any of modules.
+  * Generator configuration is read from `db/jooq-generator-configuration.xml` file located in resources of modules.
   * Database configuration is read from `config/application-default.properties` properties file, also located in resources.
     Following properties are recognized:
     * spring.datasource.url
     * spring.datasource.username
     * spring.datasource.password
-* New `discoverProjectDependencies` task. It discovers dependencies between project's modules and serializes this structure into [`projectDependencies.ser`](https://github.com/vkuzel/Gradle-Project-Dependencies) files and puts those into the resources directory of every module.
+* New `discoverProjectDependencies` task. It discovers dependencies between project's modules and serializes this structure into [`projectDependencies.ser`](https://github.com/vkuzel/Gradle-Project-Dependencies) files and puts those into resources directory of every module.
   Structure is used in Quantum Leap project to sort resources loaded from various modules, etc.
 * Upgrades Thymeleaf to version 3.x.
 * Adds [Maven Central Repository](http://search.maven.org) and [JitPack Repository](https://jitpack.io) to all projects in the multi-project build.
@@ -35,7 +35,7 @@ root project <-- Here's applied the plugin
 
 ### Configuration
 
-The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block) to avoid some problems connected to a Kotlin build scripts and an old way of apply plugins.
+The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block) to avoid some problems connected to a Kotlin build scripts, and an old way of apply plugins.
 
 1. Add the plugin repository to your project's `settings.gradle.kts` file.
 
@@ -52,7 +52,7 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
 
     ```kotlin
     plugins {
-        id("cz.quantumleap") version "2.3.4"
+        id("cz.quantumleap") version "2.3.4-1"
     }
     ```
 
