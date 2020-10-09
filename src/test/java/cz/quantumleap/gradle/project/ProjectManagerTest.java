@@ -1,35 +1,23 @@
 package cz.quantumleap.gradle.project;
 
 import org.gradle.api.Project;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.Collections;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
-@RunWith(MockitoJUnitRunner.class)
 public class ProjectManagerTest {
 
-    @Mock
-    private Project project;
-
-    private ProjectManager manager;
-
-    @Before
-    public void setUp() {
-        manager = new ProjectManager(project);
-    }
-
     @Test
-    public void getRootProject() throws Exception {
+    public void singleProjectIsRootProject() {
         // when
+        Project project = Mockito.mock(Project.class);
+        ProjectManager manager = new ProjectManager(project);
         RootProject rootProject = manager.getRootProject();
 
         // then
@@ -37,8 +25,10 @@ public class ProjectManagerTest {
     }
 
     @Test
-    public void getSpringBootProject() throws Exception {
+    public void springBootProjectIsFound() {
         // given
+        Project project = Mockito.mock(Project.class);
+        ProjectManager manager = new ProjectManager(project);
         Project coreProject = mock(Project.class);
         doReturn("core").when(coreProject).getName();
         doReturn(coreProject).when(project).findProject("core");
@@ -51,8 +41,10 @@ public class ProjectManagerTest {
     }
 
     @Test
-    public void getAllProjects() throws Exception {
+    public void allProjectsAreReturned() {
         // given
+        Project project = Mockito.mock(Project.class);
+        ProjectManager manager = new ProjectManager(project);
         Set<Project> projects = Collections.emptySet();
         doReturn(projects).when(project).getAllprojects();
 
@@ -64,8 +56,10 @@ public class ProjectManagerTest {
     }
 
     @Test
-    public void getSubProjects() throws Exception {
+    public void subProjectsAreReturned() {
         // given
+        Project project = Mockito.mock(Project.class);
+        ProjectManager manager = new ProjectManager(project);
         Set<SubProject> projects = Collections.emptySet();
         doReturn(projects).when(project).getSubprojects();
 
