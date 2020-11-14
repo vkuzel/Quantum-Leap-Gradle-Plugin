@@ -14,7 +14,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 group = "com.github.vkuzel"
-version = "2.3.4-3"
+version = "2.3.4-4"
 
 def springBootVersion = "2.3.4.RELEASE"
 def dependencyManagementVersion = "1.0.10.RELEASE"
