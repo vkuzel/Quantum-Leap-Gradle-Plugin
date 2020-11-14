@@ -13,8 +13,6 @@ import org.gradle.api.artifacts.result.ResolvedDependencyResult;
 import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.TaskAction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,8 +28,6 @@ import java.util.stream.Collectors;
 import static org.gradle.api.tasks.SourceSet.MAIN_SOURCE_SET_NAME;
 
 public class GenerateModuleDependenciesTask extends DefaultTask {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GenerateModuleDependenciesTask.class);
 
     private static final String PROJECT_DEPENDENCIES_PATH = "projectDependencies.ser";
 
@@ -61,7 +57,7 @@ public class GenerateModuleDependenciesTask extends DefaultTask {
 
         ProjectDependencies moduleDependencies = createModuleDependencies(project, children);
         dependenciesMap.put(project, moduleDependencies);
-        LOGGER.debug("Discovered module dependencies: {}", moduleDependencies.toString());
+        project.getLogger().debug("Discovered module dependencies: {}", moduleDependencies.toString());
 
         for (Project child : children) {
             if (!dependenciesMap.containsKey(child)) {
@@ -82,7 +78,7 @@ public class GenerateModuleDependenciesTask extends DefaultTask {
     private void save(Project project, ProjectDependencies moduleDependencies) {
         Path path = getResourcesDir(project).resolve(PROJECT_DEPENDENCIES_PATH);
         PluginUtils.ensureDirectoryExists(path.getParent());
-        LOGGER.info("Serialized module dependencies will be stored in {}", path);
+        project.getLogger().info("Serialized module dependencies will be stored in {}", path);
 
         try (
                 OutputStream outputStream = Files.newOutputStream(path);
@@ -99,7 +95,7 @@ public class GenerateModuleDependenciesTask extends DefaultTask {
         File resourcesDir = null;
         for (File dir : mainSourceSet.getResources().getSrcDirs()) {
             if (resourcesDir != null) {
-                LOGGER.warn("Project {} has more than one resource dirs! This {} will be used to store serialized module dependencies.",
+                project.getLogger().warn("Project {} has more than one resource dirs! This {} will be used to store serialized module dependencies.",
                         project.getName(), resourcesDir.getAbsolutePath());
                 break;
             }
