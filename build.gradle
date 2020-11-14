@@ -14,13 +14,13 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 group = "com.github.vkuzel"
-version = "2.3.4-4"
+version = "2.4.0"
 
-def springBootVersion = "2.3.4.RELEASE"
+def springBootVersion = "2.4.0"
 def dependencyManagementVersion = "1.0.10.RELEASE"
 def gradleProjectDependenciesVersion = "3.0.0"
-def jooqVersion = "3.13.4"
-def postgreSqlVersion = "42.2.16"
+def jooqVersion = "3.14.3"
+def postgreSqlVersion = "42.2.18"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
