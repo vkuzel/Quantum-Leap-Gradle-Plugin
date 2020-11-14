@@ -20,6 +20,7 @@ root project <-- Here's applied the plugin
 
 * Applies [Spring Boot Gradle plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-gradle-plugin.html) to a root project and fixes Spring Boot's `MainClassConvention` responsible for finding main class in the project.
 * New `generateJooqDomainObjects` task, generates jOOQ domain objects to `src/generated/java` directories.
+  * Schemata for a particular module are detected by parsing `CREATE SCHEMA` statement from scripts in `src/resources/db/scripts` and domain objects are generated into the module.
   * Generator configuration is read from `db/jooq-generator-configuration.xml` file located in resources of modules.
   * Database configuration is read from `config/application-default.properties` properties file, also located in resources.
     Following properties are recognized:
