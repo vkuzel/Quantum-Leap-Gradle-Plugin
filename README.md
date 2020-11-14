@@ -49,11 +49,11 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
     }
     ```
     
-2. Apply the plugin to your root project's `build.gradle.kts`.
+2. Apply the plugin to your root module `build.gradle.kts`.
 
     ```kotlin
     plugins {
-        id("cz.quantumleap") version "2.3.4-3"
+        id("com.github.vkuzel.Quantum-Leap-Gradle-Plugin") version "2.4.0"
     }
     ```
 
@@ -62,14 +62,15 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
     ```kotlin
     ext {
         // Parameter mainClassName allows you to set Spring Boot's main class
-        // explicitly and to suppress findMainClass task.
+        // explicitly and to suppress findMainClass task. Usually should be set
+        // in the module where @SpringBootApplication is located.
         mainClassName = "your.class.Name"
     }
     ```
 
 ### Run
 
-1. In the root project run the `generateModuleDependencies` to generate and store module dependencies to resources files.
+1. In the root project run the `generateModuleDependencies` task to generate and store module dependencies to resources files.
 
     ```bash
     gradle generateModuleDependencies
@@ -89,13 +90,13 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
 
 ## Development
 
-1. Build the plugin into your local Maven repository
+1. Build the plugin into your local Maven repository.
 
     ```bash
     gradle publishToMavenLocal
     ```
 
-2. Configure your project to use the plugin located in Maven local
+2. Configure your project to use the plugin located in the local Maven repository.
 
     ```kotlin
     // settings.gradle.kts
@@ -115,5 +116,5 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
 
 ## Library versions
 
-* [Spring Boot](https://github.com/spring-projects/spring-boot) 2.3.4.RELEASE
+* [Spring Boot](https://github.com/spring-projects/spring-boot) 2.4.0
 * [ProjectDependencies](https://github.com/vkuzel/Gradle-Project-Dependencies) 3.0.0
