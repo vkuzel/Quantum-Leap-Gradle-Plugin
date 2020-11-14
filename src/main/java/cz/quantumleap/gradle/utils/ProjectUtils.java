@@ -5,8 +5,6 @@ import org.gradle.api.plugins.ExtraPropertiesExtension;
 import org.gradle.api.plugins.JavaPluginConvention;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.SourceSetContainer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Set;
@@ -15,14 +13,12 @@ import java.util.stream.Stream;
 
 public class ProjectUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PluginUtils.class);
-
     public static SourceSetContainer getSourceSets(Project project) {
         return project.getConvention().getPlugin(JavaPluginConvention.class).getSourceSets();
     }
 
     public static String getExtraProperty(Project project, String propertyName, String defaultValue) {
-        LOGGER.debug("Getting extra property " + propertyName + " from project " + project.getName());
+        project.getLogger().debug("Getting extra property " + propertyName + " from project " + project.getName());
         ExtraPropertiesExtension ext = project.getExtensions().getExtraProperties();
         if (ext.has(propertyName)) {
             Object property = ext.get(propertyName);
@@ -30,22 +26,22 @@ public class ProjectUtils {
                 if (property instanceof String) {
                     return (String) property;
                 } else {
-                    LOGGER.warn("Extra property " + propertyName + " is not string. It's value will be ignored!");
+                    project.getLogger().warn("Extra property " + propertyName + " is not string. It's value will be ignored!");
                 }
             } else {
-                LOGGER.debug("Extra property " + propertyName + " is null.");
+                project.getLogger().debug("Extra property " + propertyName + " is null.");
             }
         } else {
-            LOGGER.debug("Extra property " + propertyName + " is not set.");
+            project.getLogger().debug("Extra property " + propertyName + " is not set.");
         }
         return defaultValue;
     }
 
     public static void setExtraProperty(Project project, String propertyName, String propertyValue) {
-        LOGGER.debug("Setting extra property " + propertyName + "=" + propertyValue + " to project " + project.getName());
+        project.getLogger().debug("Setting extra property " + propertyName + "=" + propertyValue + " to project " + project.getName());
         ExtraPropertiesExtension ext = project.getExtensions().getExtraProperties();
         if (ext.has(propertyName)) {
-            LOGGER.warn("Extra property " + propertyName + " is already set and it will be overwritten.");
+            project.getLogger().warn("Extra property " + propertyName + " is already set and it will be overwritten.");
         }
 
         ext.set(propertyName, propertyValue);
