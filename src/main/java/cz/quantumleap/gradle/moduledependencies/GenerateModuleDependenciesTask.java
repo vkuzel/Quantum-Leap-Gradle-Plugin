@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.gradle.api.tasks.SourceSet.MAIN_SOURCE_SET_NAME;
+
 public class GenerateModuleDependenciesTask extends DefaultTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GenerateModuleDependenciesTask.class);
@@ -50,7 +52,7 @@ public class GenerateModuleDependenciesTask extends DefaultTask {
         List<Project> children = componentResult.getDependencies().stream()
                 .filter(ResolvedDependencyResult.class::isInstance)
                 .map(dr -> ((ResolvedDependencyResult) dr).getSelected())
-                .filter(cr -> ProjectComponentIdentifier.class.isInstance(cr.getId()))
+                .filter(cr -> cr.getId() instanceof ProjectComponentIdentifier)
                 .map(cr -> {
                     ProjectComponentIdentifier projectIdentifier = (ProjectComponentIdentifier) cr.getId();
                     return project.findProject(projectIdentifier.getProjectPath());
@@ -93,7 +95,7 @@ public class GenerateModuleDependenciesTask extends DefaultTask {
     }
 
     private Path getResourcesDir(Project project) {
-        SourceSet mainSourceSet = ProjectUtils.getSourceSets(project).getByName(SourceSet.MAIN_SOURCE_SET_NAME);
+        SourceSet mainSourceSet = ProjectUtils.getSourceSets(project).getByName(MAIN_SOURCE_SET_NAME);
         File resourcesDir = null;
         for (File dir : mainSourceSet.getResources().getSrcDirs()) {
             if (resourcesDir != null) {
