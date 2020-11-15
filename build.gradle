@@ -14,7 +14,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 group = "com.github.vkuzel"
-version = "2.4.0-1"
+version = "2.4.0"
 
 def springBootVersion = "2.4.0"
 def dependencyManagementVersion = "1.0.10.RELEASE"
@@ -42,7 +42,7 @@ dependencies {
 
 gradlePlugin {
     compatibility {
-        minimumGradleVersion = '6.3'
+        minimumGradleVersion = '6.4'
     }
 
     plugins {
