@@ -50,6 +50,14 @@ public class GenerateJooqDomainObjectsTask extends DefaultTask {
         }
 
         Configuration configuration = initJooqGeneratorConfiguration(project, schemata);
+        // jOOQ stared reporting unused forced types in the GenerationTool.run0()
+        // method. To prevent from spamming Gradle logs all "unused warnings" are
+        // suppressed.
+        //
+        // There is a risk that in future this will throw an error as described
+        // in https://github.com/jOOQ/jOOQ/issues/10677 Then this should be tackled
+        // accordingly.
+        System.setProperty("jooq.codegen.logunused", "false");
         GenerationTool.generate(configuration);
     }
 
