@@ -18,7 +18,7 @@ root project <-- Here's applied the plugin
 
 ## Features
 
-* Applies [Spring Boot Gradle plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-gradle-plugin.html) to a root project and fixes Spring Boot's `MainClassConvention` responsible for finding main class in the project.
+* Applies [Spring Boot Gradle plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-gradle-plugin.html) to a root project and provides alternative facility for finding project's main class which can be located outside of the root project.
 * New `generateJooqDomainObjects` task, generates jOOQ domain objects to `src/generated/java` directories.
   * Schemata for a particular module are detected by parsing `CREATE SCHEMA` statement from scripts in `src/resources/db/scripts` and domain objects are generated into the module.
   * Generator configuration is read from `db/jooq-generator-configuration.xml` file located in resources of modules.
@@ -53,7 +53,7 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
 
     ```kotlin
     plugins {
-        id("com.github.vkuzel.Quantum-Leap-Gradle-Plugin") version "2.4.0-1"
+        id("com.github.vkuzel.Quantum-Leap-Gradle-Plugin") version "2.4.0"
     }
     ```
 
@@ -61,10 +61,10 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
 
     ```kotlin
     ext {
-        // Parameter mainClassName allows you to set Spring Boot's main class
-        // explicitly and to suppress findMainClass task. Usually should be set
+        // Parameter mainClass allows you to set Spring Boot's main class
+        // explicitly and to suppress *MainClassName tasks. Usually should be set
         // in the module where @SpringBootApplication is located.
-        mainClassName = "your.class.Name"
+        mainClass = "your.class.Name"
     }
     ```
 
