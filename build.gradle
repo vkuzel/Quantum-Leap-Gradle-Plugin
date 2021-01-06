@@ -14,7 +14,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 group = "com.github.vkuzel"
-version = "2.3.4-2"
+version = "2.3.4-3"
 
 def springBootVersion = "2.3.4.RELEASE"
 def dependencyManagementVersion = "1.0.10.RELEASE"
@@ -36,8 +36,8 @@ dependencies {
     implementation("com.sun.xml.bind:jaxb-impl:2.2.11")
     implementation("javax.activation:javax.activation-api:1.2.0")
 
-    testImplementation("junit:junit:4.12")
-    testImplementation("org.mockito:mockito-core:2.23.4")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
+    testImplementation("org.mockito:mockito-core:3.3.3")
 }
 
 gradlePlugin {

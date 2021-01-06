@@ -6,24 +6,24 @@ import org.gradle.api.Project;
 import org.gradle.api.plugins.JavaLibraryPlugin;
 import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.testfixtures.ProjectBuilder;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GenerateModuleDependenciesTaskTest {
 
     @Test
-    public void findAllDependencies() throws Exception {
+    public void allDependenciesAreFound() {
         // given
         Project project = setUpProject();
-
-        // when
         GenerateModuleDependenciesTask task = getTask(project);
 
+        // when
         Map<Project, ProjectDependencies> dependenciesMap = new HashMap<>();
         task.findAllDependencies(project, dependenciesMap);
 
