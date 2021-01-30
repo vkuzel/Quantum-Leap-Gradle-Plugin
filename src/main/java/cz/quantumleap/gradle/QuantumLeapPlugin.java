@@ -52,10 +52,11 @@ public class QuantumLeapPlugin implements Plugin<Project> {
 
     private void validateJavaVersion() {
         JavaVersion javaVersion = Jvm.current().getJavaVersion();
-        if (JavaVersion.VERSION_14.compareTo(javaVersion) <= 0) {
+        int version = javaVersion != null ? javaVersion.ordinal() + 1 : -1;
+        if (version >= 14) {
             String msg = "Java 14 and newer are not supported at this moment!\n" +
                     "\n" +
-                    "The project uses jOOQ which has a class name `org.jooq.Record` confliting with\n" +
+                    "The project uses jOOQ which has a class name `org.jooq.Record` conflicting with\n" +
                     "new `java.lang.Record`. This causes an error if your IDE optimize imports to\n" +
                     "auto-import.\n" +
                     "\n" +
