@@ -1,26 +1,28 @@
 plugins {
-    id 'dev.gradleplugins.java-gradle-plugin' version '1.1'
+    id 'dev.gradleplugins.java-gradle-plugin' version '1.5'
     id 'maven-publish'
 }
 
 repositories {
     mavenCentral()
-    maven {
-        url 'https://jitpack.io'
-    }
+    gradlePluginPortal()
+    maven { url = 'https://repo.nokee.dev/release' }
+    maven { url = 'https://jitpack.io' }
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 group = "com.github.vkuzel"
-version = "2.4.0-1"
+version = "2.5.6"
 
-def springBootVersion = "2.4.0"
-def dependencyManagementVersion = "1.0.10.RELEASE"
+def springBootVersion = "2.5.6"
+def dependencyManagementVersion = "1.0.11.RELEASE"
 def gradleProjectDependenciesVersion = "3.0.0"
-def jooqVersion = "3.14.6"
-def postgreSqlVersion = "42.2.18"
+def jooqVersion = "3.14.15"
+def postgreSqlVersion = "42.2.24"
+def junitVersion = "5.7.2"
+def mockitoVersion = "3.12.4"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
@@ -36,13 +38,13 @@ dependencies {
     implementation("com.sun.xml.bind:jaxb-impl:2.2.11")
     implementation("javax.activation:javax.activation-api:1.2.0")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
-    testImplementation("org.mockito:mockito-core:3.3.3")
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
+    testImplementation("org.mockito:mockito-core:$mockitoVersion")
 }
 
 gradlePlugin {
     compatibility {
-        minimumGradleVersion = '6.4'
+        minimumGradleVersion = '6.8'
     }
 
     plugins {

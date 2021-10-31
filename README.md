@@ -53,7 +53,7 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
 
     ```kotlin
     plugins {
-        id("com.github.vkuzel.Quantum-Leap-Gradle-Plugin") version "2.4.0-1"
+        id("com.github.vkuzel.Quantum-Leap-Gradle-Plugin") version "2.5.6"
     }
     ```
 
@@ -93,7 +93,7 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
 1. Build the plugin into your local Maven repository.
 
     ```bash
-    gradle publishToMavenLocal
+    ./gradlew publishToMavenLocal
     ```
 
 2. Configure your project to use the plugin located in the local Maven repository.
@@ -116,5 +116,5 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
 
 ## Library versions
 
-* [Spring Boot](https://github.com/spring-projects/spring-boot) 2.4.0
+* [Spring Boot](https://github.com/spring-projects/spring-boot) 2.5.6
 * [ProjectDependencies](https://github.com/vkuzel/Gradle-Project-Dependencies) 3.0.0
