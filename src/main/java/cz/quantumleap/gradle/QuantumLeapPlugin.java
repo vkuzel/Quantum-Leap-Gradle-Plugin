@@ -11,9 +11,9 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.JavaLibraryPlugin;
 import org.gradle.api.plugins.JavaPluginConvention;
-import org.gradle.internal.jvm.Jvm;
 import org.springframework.boot.gradle.plugin.SpringBootPlugin;
 
+@SuppressWarnings("unused")
 public class QuantumLeapPlugin implements Plugin<Project> {
 
     private static final String SPRING_BOOT_BOM = "org.springframework.boot:spring-boot-dependencies:" + SpringBootPlugin.class.getPackage().getImplementationVersion();
@@ -25,7 +25,6 @@ public class QuantumLeapPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
-        validateJavaVersion();
         ProjectManager projectManager = new ProjectManager(project);
         apply(projectManager);
     }
@@ -48,25 +47,5 @@ public class QuantumLeapPlugin implements Plugin<Project> {
         project.getPlugins().apply(DependencyManagementPlugin.class);
         project.getExtensions().getByType(DependencyManagementExtension.class)
                 .imports(importsHandler -> importsHandler.mavenBom(SPRING_BOOT_BOM));
-    }
-
-    private void validateJavaVersion() {
-        JavaVersion javaVersion = Jvm.current().getJavaVersion();
-        int version = javaVersion != null ? javaVersion.ordinal() + 1 : -1;
-        if (version >= 14) {
-            String msg = "Java 14 and newer are not supported at this moment!\n" +
-                    "\n" +
-                    "The project uses jOOQ which has a class name `org.jooq.Record` conflicting with\n" +
-                    "new `java.lang.Record`. This causes an error if your IDE optimize imports to\n" +
-                    "auto-import.\n" +
-                    "\n" +
-                    "This can be fixed by specifying explicit import and configuring your IDE to not\n" +
-                    "to optimize imports. But for now, let's just not use Java 14 and newer versions\n" +
-                    "until a proper solution will be created in jOOQ project or in IDEA.\n" +
-                    "\n" +
-                    "* https://github.com/jOOQ/jOOQ/issues/9988\n" +
-                    "* https://youtrack.jetbrains.com/issue/IDEA-251602";
-            throw new IllegalStateException(msg);
-        }
     }
 }
