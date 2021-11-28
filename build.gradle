@@ -44,7 +44,7 @@ dependencies {
 
 gradlePlugin {
     compatibility {
-        minimumGradleVersion = '6.8'
+        minimumGradleVersion = '7.3'
     }
 
     plugins {
