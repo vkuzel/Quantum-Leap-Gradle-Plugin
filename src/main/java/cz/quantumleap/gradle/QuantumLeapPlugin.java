@@ -42,8 +42,8 @@ public class QuantumLeapPlugin implements Plugin<Project> {
 
         project.getPlugins().apply(JavaLibraryPlugin.class);
         JavaPluginConvention javaPlugin = project.getConvention().getPlugin(JavaPluginConvention.class);
-        javaPlugin.setSourceCompatibility(JavaVersion.VERSION_11);
-        javaPlugin.setTargetCompatibility(JavaVersion.VERSION_11);
+        javaPlugin.setSourceCompatibility(JavaVersion.VERSION_17);
+        javaPlugin.setTargetCompatibility(JavaVersion.VERSION_17);
         project.getPlugins().apply(DependencyManagementPlugin.class);
         project.getExtensions().getByType(DependencyManagementExtension.class)
                 .imports(importsHandler -> importsHandler.mavenBom(SPRING_BOOT_BOM));

@@ -53,7 +53,7 @@ The plugin uses new Gradle [plugins DSL](https://docs.gradle.org/current/usergui
 
     ```kotlin
     plugins {
-        id("com.github.vkuzel.Quantum-Leap-Gradle-Plugin") version "2.5.6"
+        id("com.github.vkuzel.Quantum-Leap-Gradle-Plugin") version "2.5.6-1"
     }
     ```
 
